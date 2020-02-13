@@ -1,9 +1,9 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 let transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL,
     pass: process.env.PASSWORD
@@ -11,16 +11,22 @@ let transporter = nodemailer.createTransport({
 });
 
 let mailOptions = {
-  from: "guiduck02@gmail.com",
-  to: "gussstavo95@gmail.com",
-  subject: "nnodemailer test",
-  text: "fuck me in the ass daddy please"
+  from: 'guiduck02@gmail.com',
+  to: 'gussstavo95@gmail.com',
+  subject: 'nnodemailer test',
+  text: 'fuck me in the ass daddy please',
+  attachments: [
+    {
+      filename: 'pic.JPG',
+      path: './pic.JPG'
+    }
+  ]
 };
 
 transporter.sendMail(mailOptions, function(err, data) {
   if (err) {
-    console.log("error occurs:", err);
+    console.log('error occurs:', err);
   } else {
-    console.log("Email sent!");
+    console.log('Email sent!');
   }
 });
