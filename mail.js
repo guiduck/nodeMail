@@ -6,33 +6,39 @@ require('dotenv').config();
 //got auth information on mailGun website
 const auth = {
   auth: {
-    api_key: '52f7fdb6a8fecd802d12bcb6915aefd9-52b6835e-2e0ba181',
-    domain: 'sandboxd769c72574e44cce8ac4de84aee413ba.mailgun.org'
+    api_key: process.env.API_KEY || 'MAIL_GUN_API_KEY',
+    domain: process.env.DOMAIN || 'MAIL_GUN_DOMAIN'
   }
 };
 
 const transporter = nodemailer.createTransport(mailGun(auth));
 
-const mailOptions = {
-  from: 'guiduck02@gmail.com',
-  to: 'gussstavo95@gmail.com',
-  subject: 'nnodemailer test',
-  text: 'fuck me in the ass daddy please',
-  attachments: [
-    {
-      filename: 'pic.JPG',
-      path: './pic.JPG'
+const sendMail = (email, subject, text, cb) => {
+  const mailOptions = {
+    from: 'gussstavo95@gmail.com',
+    to: email,
+    subject,
+    text
+    /*
+    attachments: [
+      {
+        filename: 'pic.JPG',
+        path: './pic.JPG'
+      }
+    ]
+    */
+  };
+
+  transporter.sendMail(mailOptions, function(err, data) {
+    if (err) {
+      cb(err, null);
+    } else {
+      cb(null, data);
     }
-  ]
+  });
 };
 
-transporter.sendMail(mailOptions, function(err, data) {
-  if (err) {
-    console.log('error occurs:', err);
-  } else {
-    console.log('Mail sent!');
-  }
-});
+module.exports = sendMail;
 /*
   const transporter = nodemailer.createTransport({
   service: 'gmail',
